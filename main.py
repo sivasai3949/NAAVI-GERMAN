@@ -8,6 +8,7 @@ import boto3
 import json
 import os
 from botocore.exceptions import ClientError
+from diffprivlib.mechanisms import Laplace
 
 app = FastAPI()
 
@@ -68,12 +69,25 @@ async def process_chat(request: Request, user_input: str = Form(...)):
 @app.get("/generate_pathway", response_class=HTMLResponse)
 async def generate_pathway(request: Request):
     user_responses = request.session.get('user_responses', [])
-    raw_response = await get_ai_response(user_responses)
+    sanitized_responses = sanitize_responses(user_responses)
+    raw_response = await get_ai_response(sanitized_responses)
     
     # Process the raw response to format it as desired
     pathways = format_response(raw_response)
     
     return templates.TemplateResponse("pathway.html", {"request": request, "pathway_response": pathways})
+
+def sanitize_responses(user_responses):
+    sanitized_responses = []
+    laplace_mechanism = Laplace(epsilon=1.0, sensitivity=1.0)  # Added sensitivity
+
+    for response in user_responses:
+        response_length = len(response)
+        noisy_length = laplace_mechanism.randomise(response_length)
+        sanitized_response = response[:int(noisy_length)]
+        sanitized_responses.append(sanitized_response)
+    
+    return sanitized_responses
 
 async def get_ai_response(user_responses):
     messages = "\n".join([f"user\n{response}\n" for response in user_responses])
