@@ -45,7 +45,7 @@ async def home(request: Request):
     request.session['user_responses'] = []
 
     # Render template with introductory message
-    return templates.TemplateResponse("chat.html", {"request": request, "intro_message": "Hi I am Naavi, your personal coach and navigator for higher education...😊"})
+    return templates.TemplateResponse("chat.html", {"request": request, "intro_message": "Hi I am Naavi, your Navigator for Higher Education...😊"})
 
 @app.post("/process_chat")
 async def process_chat(request: Request, user_input: str = Form(...)):
