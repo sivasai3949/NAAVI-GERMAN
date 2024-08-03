@@ -32,10 +32,16 @@
           </p>
         </div>
         <div class="theme-toggle-container">
+          <span class="theme-toggle-text" id="theme-toggle-text-light"
+            >Light</span
+          >
           <input type="checkbox" id="theme-toggle" class="theme-toggle" />
           <label for="theme-toggle" class="theme-toggle-label">
             <span class="theme-toggle-slider"></span>
           </label>
+          <span class="theme-toggle-text" id="theme-toggle-text-dark"
+            >Dark</span
+          >
         </div>
       </div>
     </header>
@@ -47,15 +53,12 @@
           background, educational milestones, aspirations, higher education
           goals, and financial considerations.
         </h2>
-        <!-- Introductory message -->
         <div class="intro-message-container">
           <div class="intro-bubble">{{ intro_message }}</div>
         </div>
-        <!-- Chat container -->
         <div id="chat-container" class="chat-container">
           <!-- Chat bubbles will be appended here -->
         </div>
-        <!-- User input form -->
         <form id="chat-form" class="user-input-form">
           <div class="input-container">
             <textarea
@@ -68,7 +71,6 @@
             </button>
           </div>
         </form>
-        <!-- Create Pathway button -->
         <button id="pathway-btn" class="hidden">Create Pathway</button>
       </div>
     </main>
